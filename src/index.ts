@@ -113,7 +113,10 @@ app.post(
           console.log(Date.now() - statTime);
           res.sendFile(`public/results/${resultFileName}`, { root: "./" });
         }
+        return;
       }
+      res.json({ error: "empty file" });
+      return;
     } catch (err) {
       console.log(err);
     }
