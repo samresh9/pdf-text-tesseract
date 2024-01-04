@@ -1,0 +1,12 @@
+100xDevs
+0000
+Payment Method : Online Invoice # : 07481
+Payment Transction : Invoice Date :2023-11-12
+pay_MzSwid85LueTUZ Bill to : Samresh Thapa
+7652947825
+thapasamresh9@gmail.com
+Live 0-100 Complete Rs. 4999
+Sub Total Rs. 4999
+Total Rs. 4999
+Amount Received in Words : Four Thousand Nine Hundred And Ninety Nine Rupees
+Notes: This is a computer generated pay receipt ,does not require signature
