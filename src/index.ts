@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     return cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
 //initialize tesseract worker
 let tesseractWorkers: Tesseract.Worker[] = [];
@@ -40,9 +40,7 @@ async function initializeTesseractWorkers(workerCount: number) {
   }
 }
 
-
-
-async function convertToImg(path: string) {
+async function convertToImg(path: Buffer) {
   const pdfArray = await pdf2img.convert(path, {
     //scales the img
     scale: 3,
@@ -63,7 +61,7 @@ async function convertToImg(path: string) {
 }
 
 //ocr function
-async function performOCR(imgBuffers: Buffer[], filename: string) {
+async function performOCR(imgBuffers: Buffer[], filename: string | null) {
   const scheduler = createScheduler();
   tesseractWorkers.forEach((worker) => {
     scheduler.addWorker(worker);
@@ -91,11 +89,21 @@ app.post(
   upload.single("pdf-file"),
   async (req: Request, res: Response) => {
     try {
-     await initializeTesseractWorkers(4);
+      await initializeTesseractWorkers(4);
       if (req.file) {
-        const { path } = req.file;
-        console.log(path);
-        const buffers = await convertToImg(path);
+        let buffers = [];
+        const whitelist = [
+          "image/png",
+          "image/jpeg",
+          "image/jpg",
+          "image/webp",
+        ];
+        if (whitelist.includes(req.file.mimetype)) {
+          buffers.push(req.file.buffer);
+        } else {
+          const imgBuffers = await convertToImg(req.file.buffer);
+          buffers = imgBuffers;
+        }
         if (buffers != null) {
           //   const worker = await createWorker("eng");
           const statTime = Date.now();
