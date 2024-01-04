@@ -13,7 +13,7 @@ Make sure you have the following installed:
 
 1. Clone this repository:
 
-    git clone https://github.com/your-username/tesseract-ocr-express.git
+    git clone https://github.com/samresh9/pdf-text-tesseract.git
    
 2. Install dependencies:
 
@@ -26,8 +26,8 @@ Make sure you have the following installed:
     ```
     npm start
     ```
-4.Start the Application in Development Mode
-      ```
+4. Start the Application in Development Mode
+    ```
     npm run dev
     ```
 ## Usage
